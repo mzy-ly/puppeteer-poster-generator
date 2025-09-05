@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors'); // 允许跨域请求
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
@@ -7,6 +8,7 @@ const qrcode = require('qrcode'); // 新增：二维码生成库
 
 const app = express();
 app.use(express.json());
+app.use(cors()); // 允许任何跨域请求
 
 // 创建存储海报和临时二维码的目录
 const POSTER_DIR = path.join(__dirname, 'posters');

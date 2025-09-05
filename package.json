@@ -2,6 +2,7 @@
   "name": "puppeteer-poster",
   "version": "1.0.0",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "puppeteer": "^24.18.0",
     "qrcode": "^1.5.4",
