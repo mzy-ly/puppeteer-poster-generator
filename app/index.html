@@ -201,7 +201,7 @@
                 img_url: img_url.value,
                 qrCodeData: qrCodeData.value
             };
-            fetch('http://localhost:3000/generate-poster', {
+            fetch('https://puppeteer-poster-generator-production-ffaa.up.railway.app/generate-poster', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
