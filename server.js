@@ -8,7 +8,26 @@ const qrcode = require('qrcode');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+  // 允许指定 origin 访问（生产环境建议明确指定允许的域名）
+  origin: [
+    'https://mzy-ly.github.io',  // 添加你的前端域名
+    'http://localhost:3000',     // 保留本地开发环境
+    'http://127.0.0.1:3000'
+  ],
+  // 允许跨域请求的方法
+  methods: ['GET', 'POST', 'OPTIONS'],
+  // 允许跨域请求包含的头信息
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  // 允许浏览器携带 cookies（如果需要）
+  credentials: true,
+  // 预检请求的有效期（秒）
+  maxAge: 86400
+}));
+
+// 处理预检请求
+app.options('*', cors());
 
 // 创建存储目录
 const POSTER_DIR = path.join(__dirname, 'posters');
