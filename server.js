@@ -11,11 +11,7 @@ app.use(express.json());
 
 app.use(cors({
   // 允许指定 origin 访问（生产环境建议明确指定允许的域名）
-  origin: [
-    'https://mzy-ly.github.io',  // 添加你的前端域名
-    'http://localhost:3000',     // 保留本地开发环境
-    'http://127.0.0.1:3000'
-  ],
+  origin: '*',
   // 允许跨域请求的方法
   methods: ['GET', 'POST', 'OPTIONS'],
   // 允许跨域请求包含的头信息
