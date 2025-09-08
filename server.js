@@ -28,7 +28,7 @@ const getBaseUrl = (req) => {
     return process.env.BASE_URL;
   }
   // 从请求头动态获取域名（适用于直接访问的场景）
-  const protocol = req.secure ? 'https' : 'http';
+  const protocol = req.get('x-forwarded-proto') || req.protocol || 'http';
   const host = req.get('host'); // 自动获取部署后的域名（如 xxxx.railway.app）
   return `${protocol}://${host}`;
 };
