@@ -1,0 +1,249 @@
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puppeteer 海报生成器</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        accent: '#10B981',
+                        neutral: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .form-input-focus {
+                @apply focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none;
+            }
+            .form-transition {
+                @apply transition-all duration-300 ease-in-out;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
+        <!-- 表单标题区域 -->
+        <div class="text-center mb-10 md:mb-16">
+            <h1 class="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-gray-800 mb-4">生成海报</h1>
+            <p class="text-secondary text-lg max-w-2xl mx-auto">请填写以下信息提交您的内容，所有带 <span class="text-red-500">*</span>
+                的字段为必填项</p>
+        </div>
+
+        <!-- 表单卡片 -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:shadow-xl form-transition">
+            <!-- 表单头部 -->
+            <div class="bg-primary/5 px-6 py-5 border-b border-gray-100">
+                <h2 class="text-xl font-semibold text-gray-800">内容信息</h2>
+                <p class="text-secondary text-sm">请完整填写内容的相关信息</p>
+            </div>
+
+            <!-- 表单内容 -->
+            <form id="contentForm" class="p-6 md:p-8 space-y-6">
+                <!-- 标题字段 -->
+                <div class="space-y-2">
+                    <label for="title" class="block text-sm font-medium text-gray-700">
+                        标题 <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-header"></i>
+                        </span>
+                        <input type="text" id="title" name="title" required=""
+                            class="pl-10 w-full rounded-lg border border-gray-300 py-3 px-4 form-input-focus form-transition"
+                            placeholder="请输入内容标题">
+                    </div>
+                </div>
+
+                <!-- 副标题字段 -->
+                <div class="space-y-2">
+                    <label for="subtitle" class="block text-sm font-medium text-gray-700">
+                        副标题
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-text-width"></i>
+                        </span>
+                        <input type="text" id="subtitle" name="subtitle"
+                            class="pl-10 w-full rounded-lg border border-gray-300 py-3 px-4 form-input-focus form-transition"
+                            placeholder="请输入内容副标题（可选）">
+                    </div>
+                </div>
+
+                <!-- 简介字段 -->
+                <div class="space-y-2">
+                    <label for="content" class="block text-sm font-medium text-gray-700">
+                        简介 <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute top-3 left-3 text-gray-500">
+                            <i class="fa fa-align-left"></i>
+                        </span>
+                        <textarea id="content" name="content" required="" rows="4"
+                            class="pl-10 w-full rounded-lg border border-gray-300 py-3 px-4 form-input-focus form-transition resize-none"
+                            placeholder="请输入内容简介"></textarea>
+                    </div>
+                    <p class="text-xs text-secondary">请简要描述内容的核心信息，有助于更好地展示</p>
+                </div>
+
+                <!-- 主图链接字段 -->
+                <div class="space-y-2">
+                    <label for="img_url" class="block text-sm font-medium text-gray-700">
+                        主图链接 <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-image"></i>
+                        </span>
+                        <input type="url" id="img_url" name="img_url" required=""
+                            class="pl-10 w-full rounded-lg border border-gray-300 py-3 px-4 form-input-focus form-transition"
+                            placeholder="请输入主图的URL地址">
+                    </div>
+                    <p class="text-xs text-secondary">图片URL应指向有效的图片资源（支持JPG、PNG等格式）</p>
+                </div>
+
+                <!-- 分享链接字段 -->
+                <div class="space-y-2">
+                    <label for="qrCodeData" class="block text-sm font-medium text-gray-700">
+                        分享链接
+                    </label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                            <i class="fa fa-qrcode"></i>
+                        </span>
+                        <input type="url" id="qrCodeData" name="qrCodeData"
+                            class="pl-10 w-full rounded-lg border border-gray-300 py-3 px-4 form-input-focus form-transition"
+                            placeholder="请输入分享链接（可选）">
+                    </div>
+                    <p class="text-xs text-secondary">用于生成二维码的分享链接地址</p>
+                </div>
+
+                <!-- 提交按钮 -->
+                <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                    <button type="button" id="submitBtn"
+                        class="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg shadow-md hover:shadow-lg form-transition flex-1 flex items-center justify-center gap-2">
+                        <i class="fa fa-paper-plane"></i>
+                        <span>提交内容</span>
+                    </button>
+                    <button type="reset"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow form-transition flex-1">
+                        重置
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 数据输出区域 -->
+        <div id="outputArea" class="mt-8 hidden">
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-accent">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <i class="fa fa-check-circle text-accent"></i>
+                    提交的数据
+                </h3>
+                <pre id="formDataOutput" class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('contentForm');
+        const outputArea = document.getElementById('outputArea');
+        const formDataOutput = document.getElementById('formDataOutput');
+        const title = document.getElementById('title');
+        const subtitle = document.getElementById('subtitle');
+        const content = document.getElementById('content');
+        const img_url = document.getElementById('img_url');
+        const qrCodeData = document.getElementById('qrCodeData');
+
+        // mock数据填充（用于测试）
+        title.value = "探索Node.js的强大功能";
+        subtitle.value = "从入门到精通";
+        content.value = "Node.js是一个基于Chrome V8引擎的JavaScript运行环境，广泛应用于服务器端开发。本文将带您深入了解Node.js的核心概念、模块系统以及常用的开发工具和框架，帮助您快速上手并构建高性能的网络应用。";
+        img_url.value = "https://example.com/image.jpg";
+        qrCodeData.value = "https://example.com/share";
+
+        // 提交按钮点击事件
+        submitBtn.addEventListener('click', function () {
+            // 验证表单
+            if (!form.checkValidity()) {
+                // 表单验证失败，触发浏览器默认验证提示
+                form.reportValidity();
+                return;
+            }
+
+            // 收集表单数据
+            const formData = {
+                title: title.value,
+                subtitle: subtitle.value,
+                content: content.value,
+                img_url: img_url.value,
+                qrCodeData: qrCodeData.value
+            };
+            fetch('https://puppeteer-poster-generator-production-ffaa.up.railway.app/generate-poster', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('海报生成成功！'+ JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('请求失败，请稍后重试。');
+                });
+
+            // 显示输出区域并展示数据
+            formDataOutput.textContent = JSON.stringify(formData, null, 2);
+            outputArea.classList.remove('hidden');
+
+            // 添加显示动画
+            outputArea.classList.add('animate-fadeIn');
+
+            // 滚动到输出区域
+            outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // 为所有输入框添加输入动画效果
+        const inputs = form.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function () {
+                this.parentElement.classList.add('scale-[1.01]');
+                this.parentElement.classList.add('form-transition');
+            });
+
+            input.addEventListener('blur', function () {
+                this.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
