@@ -153,6 +153,7 @@
             </form>
         </div>
 
+        <div class="poster-container mt-8"></div>
         <!-- 数据输出区域 -->
         <div id="outputArea" class="mt-8 hidden">
             <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-accent">
@@ -201,6 +202,10 @@
                 img_url: img_url.value,
                 qrCodeData: qrCodeData.value
             };
+
+            const posterContainer = document.querySelector('.poster-container');
+            posterContainer.innerHTML = '<span>海报生成中...</span>';
+
             fetch('https://puppeteer-poster-generator-production-ffaa.up.railway.app/generate-poster', {
                 method: 'POST',
                 headers: {
@@ -211,7 +216,14 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
-                    alert('海报生成成功！'+ JSON.stringify(data));
+                    // alert('海报生成成功！'+ JSON.stringify(data));
+                    posterContainer.innerHTML = `
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fa fa-image text-accent"></i>
+                            生成的海报
+                        </h3>
+                        <img id="posterImg" src="${data.posterUrl}" alt="生成的海报" class="w-full rounded-lg shadow-md "/>
+                    `;
                 })
                 .catch((error) => {
                     console.error('Error:', error);
