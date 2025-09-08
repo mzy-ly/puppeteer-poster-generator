@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  poster-service:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./posters:/app/posters
+      - ./qrcodes:/app/qrcodes
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    # 限制资源使用（可选）
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    
