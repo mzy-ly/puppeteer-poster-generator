@@ -11,9 +11,6 @@ app.use(express.json());
 
 app.use(cors());
 
-// 处理预检请求
-app.options('*', cors());
-
 // 创建存储目录
 const POSTER_DIR = path.join(__dirname, 'posters');
 const QRCODE_DIR = path.join(__dirname, 'qrcodes');
