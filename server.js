@@ -9,18 +9,7 @@ const qrcode = require('qrcode');
 const app = express();
 app.use(express.json());
 
-app.use(cors({
-  // 允许指定 origin 访问（生产环境建议明确指定允许的域名）
-  origin: '*',
-  // 允许跨域请求的方法
-  methods: ['GET', 'POST', 'OPTIONS'],
-  // 允许跨域请求包含的头信息
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  // 允许浏览器携带 cookies（如果需要）
-  credentials: true,
-  // 预检请求的有效期（秒）
-  maxAge: 86400
-}));
+app.use(cors());
 
 // 处理预检请求
 app.options('*', cors());
