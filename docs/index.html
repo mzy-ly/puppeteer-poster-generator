@@ -183,7 +183,7 @@
         subtitle.value = "从入门到精通";
         content.value = "Node.js是一个基于Chrome V8引擎的JavaScript运行环境，广泛应用于服务器端开发。本文将带您深入了解Node.js的核心概念、模块系统以及常用的开发工具和框架，帮助您快速上手并构建高性能的网络应用。";
         img_url.value = "https://example.com/image.jpg";
-        qrCodeData.value = "https://example.com/share";
+        qrCodeData.value = "https://event.baai.ac.cn/activities/949";
 
         // 提交按钮点击事件
         submitBtn.addEventListener('click', function () {
@@ -205,8 +205,7 @@
 
             const posterContainer = document.querySelector('.poster-container');
             posterContainer.innerHTML = '<span>海报生成中...</span>';
-
-            fetch('https://puppeteer-poster-generator-production-ffaa.up.railway.app/generate-poster', {
+            fetch('http://localhost:3001/generate-poster', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -222,7 +221,7 @@
                             <i class="fa fa-image text-accent"></i>
                             生成的海报
                         </h3>
-                        <img id="posterImg" src="${data.posterUrl}" alt="生成的海报" class="w-full rounded-lg shadow-md "/>
+                        <img id="posterImg" src="${data.posterUrl}" alt="生成的海报" class="w-full rounded-lg shadow-md " style="width:auto;max-height:600px;"/>
                     `;
                 })
                 .catch((error) => {

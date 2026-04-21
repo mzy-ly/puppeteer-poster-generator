@@ -12,6 +12,24 @@
 - 🚀 高性能的 Puppeteer 渲染
 - 📦 简单易用的 REST API
 
+## 项目结构
+
+```
+server/
+├── server.js          # 主服务文件
+├── posters/           # 生成的海报存储目录
+├── qrcodes/           # 生成的二维码存储目录
+├── package.json       # 项目配置文件
+└── README.md          # 项目说明文档
+```
+
+## 技术栈
+
+- **Express.js** - Web 框架
+- **Puppeteer** - 无头浏览器，用于渲染海报
+- **qrcode** - 二维码生成库
+- **uuid** - 生成唯一标识符
+
 ## 前置条件
 
 在运行本项目之前，请确保您的系统已安装以下软件：
@@ -34,13 +52,14 @@ cd puppeteer-poster-generator
 npm install
 ```
 
-### 3. 启动服务
+### 3. 启动node服务
 
 ```bash
 npm start
 ```
 
-服务将在 `http://localhost:3000` 启动。
+服务将在 `http://localhost:3001` 启动。
+
 
 ## API 使用说明
 
@@ -58,7 +77,7 @@ const data = {
   qrCodeData: "https://example.com"
 };
 
-axios('http://localhost:3000/generate-poster', {
+axios('http://localhost:3001/generate-poster', {
     method: 'POST',
     data
 }).then(res => {
@@ -95,23 +114,10 @@ axios('http://localhost:3000/generate-poster', {
 - `imgUrl`: 要插入的图片 URL（可选，默认使用随机图片）
 - `qrCodeData`: 二维码包含的数据（可选，提供后将自动生成二维码）
 
-## 项目结构
+## 打开页面
+`http://127.0.0.1:5500/docs/index.html`  
+表单提交后，将自动打开生成的海报页面。
 
-```
-server/
-├── server.js          # 主服务文件
-├── posters/           # 生成的海报存储目录
-├── qrcodes/           # 生成的二维码存储目录
-├── package.json       # 项目配置文件
-└── README.md          # 项目说明文档
-```
-
-## 技术栈
-
-- **Express.js** - Web 框架
-- **Puppeteer** - 无头浏览器，用于渲染海报
-- **qrcode** - 二维码生成库
-- **uuid** - 生成唯一标识符
 
 ## 注意事项
 
