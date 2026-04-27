@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        /* 保持原有样式不变 */
+        *{
+            box-sizing: border-box;
+        }
+        body {
+            width: 750px;
+            background: transparent;
+            margin: 0 auto;
+        }
+        .poster-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: url(./assets/images/bg.png) no-repeat;
+            background-size: cover;
+            background-position: center 370px;
+        }
+        .card{
+            padding: 58px 26px 28px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 4px 10px 0px #ACD3FC,inset 0px 0px 2px 2px rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+        .card + .card{
+            margin-top: 36px;
+        }
+        .poster-header {
+            height: 370px;
+            position: relative;
+            background: url(./assets/images/ai-robot.png) no-repeat;
+            background-size: cover;
+        }
+
+        .poster-body{
+            position: relative;
+            margin-top: -82px;
+        }
+        .poster-body::after {
+            position: absolute;
+            bottom: -185px;
+            left: -127px;
+            content: '';
+            width: 707px;
+            height: 692px;
+            background: url(./assets/images/AI.png) no-repeat;
+            background-size: cover;
+            z-index: 1;
+        }
+        .poster-body-main {
+            position: relative;
+            z-index: 2;
+            padding: 0 54px 64px 48px;
+        }
+
+        .title-container {
+            padding: 0 16px;
+            background: linear-gradient(90deg, #E8F46C 0%, #58F0F5 100%);
+            border-radius: 20px;
+            margin-bottom: 47px;
+        }
+        .title-container .title {
+            margin: 0;
+            padding: 18px 52px;
+            text-align: center;
+            font-family: Alimama ShuHeiTi;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #0172FF 3%, #003CFF 92%);
+        }
+
+        .poster-body .tag{
+            display: inline-block;
+            font-family: Source Han Sans;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF;
+            padding: 20px 50px 16px;
+            background: url(./assets/images/tag-bg.png) no-repeat;
+            background-size: 100% 100%;
+            margin-bottom: 6px;
+            position: absolute;
+            top: -27px;
+            left: -12px;
+        }
+        .poster-body .text{
+            font-family: Source Han Sans;
+            font-size: 22px;
+            font-weight: normal;
+            line-height: 40px;
+            color: #2D539E;
+        }
+
+        .content-desc .text{
+            text-indent: 44px;
+        }
+
+        .user-item{
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+        }
+        .user-item-thumb{
+            margin-right: 17px;
+        }
+        .user-item .avatar{
+            display: block;
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .user-item .user-item-body{
+            flex: 1;
+            font-family: Source Han Sans;
+            line-height: 40px;
+            color: #2D539E;
+        }
+        .user-item .user-name{
+            width: fit-content;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 0 20px;
+            background: linear-gradient(90deg, #E3FF13 0%, #60F0F0 100%);
+        }
+        .user-item .user-desc{
+            font-size: 22px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+
+        .footer-section {
+            margin-top: 24px;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+        }
+
+        .qr-caption img {
+            display: block;
+            width: 166px;
+            height: 48px;
+        }
+        .qr-caption .text {
+            font-size: 10px;
+            color: rgba(0,0,0,0.53);
+            line-height: 14px;
+        }
+        .qr-code-container {
+            display: flex;
+        }
+        .qr-code-item {
+            margin-left: 16px;
+            text-align: center;
+            padding: 12px 12px 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #E3FF13 0%, #60F0F0 100%);
+        }
+        .qr-code {
+            display: block;
+            width: 178px;
+            height: 178px;
+        }
+        .qr-code-item .text {
+            display: block;
+            font-family: Source Han Sans;
+            font-size: 22px;
+            font-weight: bold;
+            color: #2D539E;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="poster-container">
+        <div class="poster-header"></div>
+        <div class="poster-body">
+            <div class="poster-body-main">
+                <div class="title-container">
+                    <h1 class="title">ICLR 2026  首届可Scaling Feature Bench打造Agentic 生态研究首届可Scaling Feature Bench打造Agentic 生态研究首届可Scaling Feature Bench打造Agentic 生态研究首届可Scaling Feature Bench打造Agentic 生态研究首届可Scaling Feature Bench打造Agentic 生态研究</h1>
+                </div>
+                <div class="content">
+                    <div class="content-desc card">
+                        <span class="tag">活动介绍</span>
+                        <div class="text">随着大模型代码能力的飞速发展，AI智能体正深刻重塑软件开发范式。ICLR 2026国际学习表征会议是全球深度学习领域的顶级学术盛会，本届会议收录了超1.9万篇前沿研究，更将智能体系统列为研讨方向。在此背景下，FeatureBench 作为首个可扩展的Coding评测框架，于ICLR 2026惊艳亮相。它突破传统评测仅聚焦于几十行代码修补的局限，通过独创的测试驱动自动化生成管线，从真实软件仓库中动抽取平均涉及近等随着大模型代码能力的飞速发展，AI智能体正深刻重塑软件开发范式。ICLR 2026国际学习表征会议是全球深度学习领域的顶级学术盛会，本届会议收录了超1.9万篇前沿研究，更将智能体系统列为研讨方向。在此背景下，FeatureBench 作为首个可扩展的Coding评测框架，于ICLR 2026惊艳亮相。它突破传统评测仅聚焦于几十行代码修补的局限，通过独创的测试驱动自动化生成管线，从真实软件仓库中动抽取平均涉及近等随着大模型代码能力的飞速发展，AI智能体正深刻重塑软件开发范式。ICLR 2026国际学习表征会议是全球深度学习领域的顶级学术盛会，本届会议收录了超1.9万篇前沿研究，更将智能体系统列为研讨方向。在此背景下，FeatureBench 作为首个可扩展的Coding评测框架，于ICLR 2026惊艳亮相。它突破传统评测仅聚焦于几十行代码修补的局限，通过独创的测试驱动自动化生成管线，从真实软件仓库中动抽取平均涉及近等随着大模型代码能力的飞速发展，AI智能体正深刻重塑软件开发范式。ICLR 2026国际学习表征会议是全球深度学习领域的顶级学术盛会，本届会议收录了超1.9万篇前沿研究，更将智能体系统列为研讨方向。在此背景下，FeatureBench 作为首个可扩展的Coding评测框架，于ICLR 2026惊艳亮相。它突破传统评测仅聚焦于几十行代码修补的局限，通过独创的测试驱动自动化生成管线，从真实软件仓库中动抽取平均涉及近等</div>
+                    </div>
+                    <div class="content-users card">
+                        <span class="tag">活动嘉宾</span>
+                        <div class="user-list">
+                            <div class="user-item">
+                                <div class="user-item-thumb">
+                                    <img class="avatar" src="https://sso-user-avatar.baai.ac.cn/v1/931654e7041ff7453fda8788139cf21e.png" alt="">
+                                </div>
+                                <div class="user-item-body">
+                                    <div class="user-name">张辰皓</div>
+                                    <div class="user-desc">华中科技大学 (Huazhong University of Science and Technology) 学生</div>
+                                </div>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-item-thumb">
+                                    <img class="avatar" src="https://simg.baai.ac.cn/uploads/2024/08/d3c71d2f621241eb42d10c378476fb46.jpg" alt="">
+                                </div>
+                                <div class="user-item-body">
+                                    <div class="user-name">谭杰英</div>
+                                    <div class="user-desc">中国石油大学（北京） 博士生/研究生导师</div>
+                                </div>
+                            </div>
+                            <div class="user-item">
+                                <div class="user-item-thumb">
+                                    <img class="avatar" src="https://sso-user-avatar.baai.ac.cn/v1/0fe0911990711b7e10867d99f539754c.png" alt="">
+                                </div>
+                                <div class="user-item-body">
+                                    <div class="user-name">Jiaqi Zhai</div>
+                                    <div class="user-desc">Meta Distinguished Engineer</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-time card">
+                        <span class="tag">活动时间</span>
+                        <div class="text">2025年6月26日 12:34 线上直播</div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <div class="qr-caption">
+                        <img src="./assets/images/logo.svg" alt="智源社区">
+                    </div>
+                    <div class="qr-code-container">
+                        <div class="qr-code-item">
+                            <img class="qr-code" src="./qrcodes/1.png" alt="立即报名">
+                            <span class="text">立即报名</span>
+                        </div>
+                        <div class="qr-code-item">
+                            <img class="qr-code" src="./assets/images/qrcode-baai.jpg" alt="关注社区">
+                            <span class="text">关注社区</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
