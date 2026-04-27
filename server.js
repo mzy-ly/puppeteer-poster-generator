@@ -62,10 +62,11 @@ app.post('/generate-poster', async (req, res) => {
   try {
     const {
       title,
-      content: desc,
+      content='详细内容，可微信扫描下方二维码，查看活动详情页，获得活动具体介绍，期待你的参与哦~',
       type='线上直播',
-      time='2025年6月26日 12:34:56',
-      qrCodeData
+      time='2025年6月26日 12:34',
+      qrCodeData,
+      userList = []
     } = req.body;
     
     // 1. 获取当前环境的基础URL
@@ -75,6 +76,30 @@ app.post('/generate-poster', async (req, res) => {
     let qrCodeUrl = '';
     if (qrCodeData) {
       qrCodeUrl = await generateQrCode(qrCodeData, baseUrl);
+    }
+
+    let userListHtml = '';
+    if (userList.length > 0) {
+        const userInfo = userList.splice(0, 3); // 只取前3个用户展示
+        const html = userInfo.map(user => `
+            <div class="user-item">
+                <div class="user-item-thumb">
+                <img class="avatar" src="${user.avatar_url}" alt="${user.name}">
+                </div>
+                <div class="user-item-body">
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-desc">${user.company} ${user.position}</div>
+                </div>
+            </div>
+        `).join('');
+        userListHtml = `
+            <div class="content-users card">
+                <span class="tag">活动嘉宾</span>
+                <div class="user-list">
+                    ${html}
+                </div>
+            </div>
+        `;
     }
 
     // 3. 生成海报文件
@@ -99,111 +124,156 @@ app.post('/generate-poster', async (req, res) => {
     <meta charset="UTF-8">
     <style>
         /* 保持原有样式不变 */
+        *{
+            box-sizing: border-box;
+        }
         body {
-            width: 310px;
-            height: 570px;
+            width: 750px;
             background: transparent;
             margin: 0 auto;
         }
-        #poster {
+        .poster-container {
             width: 100%;
             height: 100%;
             overflow: hidden;
             background: url(${baseUrl}/assets/images/bg.png) no-repeat;
-            background-size: 100% 100%;
-            border-radius: 20px;
-            padding: 16px;
-            box-sizing: border-box;
+            background-size: cover;
+            background-position: center 370px;
         }
         .card{
-            padding: 16px;
-            background: rgba(255,255,255,0.92);
-            border-radius: 16px;
+            padding: 58px 26px 28px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 4px 10px 0px #ACD3FC,inset 0px 0px 2px 2px rgba(255, 255, 255, 0.9);
+            position: relative;
         }
         .card + .card{
-            margin-top: 12px;
+            margin-top: 36px;
         }
         .poster-header {
-            padding: 17px 8px;
+            height: 370px;
             position: relative;
-        }
-        .poster-header .logo-text {
-            font-weight: 600;
-            font-size: 22px;
-            color: #FFFFFF;
-            line-height: 30px;
-        }
-        .poster-header .logo {
-            width: 96px;
-            height: 96px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            z-index: 0;
-            transform: rotate(5.92deg);
-        }
-        .poster-body{
-            position: relative;
+            background: url(${baseUrl}/assets/images/ai-robot.png) no-repeat;
+            background-size: cover;
         }
 
-        .poster-body .title {
-            font-size: 16px;
-            color: rgba(0,0,0,0.85);
-            line-height: 24px;
-            margin: 0 0 10px 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
+        .poster-body{
+            position: relative;
+            margin-top: -82px;
         }
-        .divider {
-            width: 100%;
-            height: 0px;
-            border: 1px dashed rgba(0,0,0,0.2);
-            margin: 16px 0;
-            transform: scaleY(0.5);
+        .poster-body::after {
+            position: absolute;
+            bottom: -185px;
+            left: -127px;
+            content: '';
+            width: 707px;
+            height: 692px;
+            background: url(./assets/images/AI.png) no-repeat;
+            background-size: cover;
+            z-index: 1;
         }
+        .poster-body-main {
+            position: relative;
+            z-index: 2;
+            padding: 0 54px 64px 48px;
+        }
+
+        .title-container {
+            padding: 0 16px;
+            background: linear-gradient(90deg, #E8F46C 0%, #58F0F5 100%);
+            border-radius: 20px;
+            margin-bottom: 47px;
+        }
+        .title-container .title {
+            margin: 0;
+            padding: 18px 52px;
+            text-align: center;
+            font-family: Alimama ShuHeiTi;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #0172FF 3%, #003CFF 92%);
+        }
+
         .poster-body .tag{
             display: inline-block;
-            font-weight: 500;
-            font-size: 12px;
-            color: #134CB2;
-            line-height: 20px;
-            padding: 0 4px;
-            background: rgba(60,102,255,0.1);
-            border-radius: 4px;
+            font-family: Source Han Sans;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFFFFF;
+            padding: 20px 50px 16px;
+            background: url(${baseUrl}/assets/images/tag-bg.png) no-repeat;
+            background-size: 100% 100%;
             margin-bottom: 6px;
+            position: absolute;
+            top: -27px;
+            left: -12px;
         }
         .poster-body .text{
-            font-size: 13px;
-            color: rgba(0,0,0,0.85);
-            line-height: 20px;
+            font-family: Source Han Sans;
+            font-size: 22px;
+            font-weight: normal;
+            line-height: 40px;
+            color: #2D539E;
         }
-        .poster-body .content > div + div {
-            margin-top: 16px;
-        }
+
         .content-desc .text{
+            text-indent: 44px;
+        }
+
+        .user-item{
+            display: flex;
+            align-items: center;
+        }
+        .user-item + .user-item{
+            margin-top: 25px;
+        }
+        .user-item-thumb{
+            margin-right: 17px;
+        }
+        .user-item .avatar{
+            display: block;
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .user-item .user-item-body{
+            flex: 1;
+            font-family: Source Han Sans;
+            line-height: 40px;
+            color: #2D539E;
+        }
+        .user-item .user-name{
+            width: fit-content;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 0 20px;
+            background: linear-gradient(90deg, #E3FF13 0%, #60F0F0 100%);
+        }
+        .user-item .user-desc{
+            font-size: 22px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
-            line-clamp: 3;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
             -webkit-box-orient: vertical;
         }
 
 
         .footer-section {
+            margin-top: 24px;
             display: flex;
-            align-items: center;
+            align-items: end;
             justify-content: space-between;
         }
 
         .qr-caption img {
             display: block;
-            width: 86px;
-            height: 25px;
+            width: 166px;
+            height: 48px;
         }
         .qr-caption .text {
             font-size: 10px;
@@ -211,65 +281,64 @@ app.post('/generate-poster', async (req, res) => {
             line-height: 14px;
         }
         .qr-code-container {
-            position: relative;
+            display: flex;
+        }
+        .qr-code-item {
+            margin-left: 16px;
+            text-align: center;
+            padding: 12px 12px 0;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #E3FF13 0%, #60F0F0 100%);
         }
         .qr-code {
             display: block;
-            width: 64px;
-            height: 64px;
-            background: #FFFFFF;
-            border-radius: 8px;
-            border: 1px solid rgba(0,0,0,0.08);
+            width: 178px;
+            height: 178px;
         }
-        .qr-code-logo {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .qr-code-item .text {
+            display: block;
+            font-family: Source Han Sans;
+            font-size: 22px;
+            font-weight: bold;
+            color: #2D539E;
         }
 
     </style>
 </head>
 
 <body>
-    <div id="poster" class="poster-container">
-        <div class="poster-header">
-            <div class="logo-text">
-                <b>上智源社区</b>
-                <br>
-                <b>听AI学术报告</b>
-            </div>
-            <img class="logo" src="${baseUrl}/assets/images/ai-robot.png" alt="智源社区">
-        </div>
-        <div class="poster-body card">
-            <h1 class="title">${title}</h1>
-            <div class="divider"></div>
-            <div class="content">
-                <div class="content-desc">
-                    <span class="tag">活动简介</span>
-                    <div class="text">${desc}</div>
+    <div class="poster-container">
+        <div class="poster-header"></div>
+        <div class="poster-body">
+            <div class="poster-body-main">
+                <div class="title-container">
+                    <h1 class="title">${title}</h1>
                 </div>
-                <div class="content-type">
-                    <span class="tag">活动形式</span>
-                    <div class="text">${type}</div>
+                <div class="content">
+                    <div class="content-desc card">
+                        <span class="tag">活动介绍</span>
+                        <div class="text">${content}</div>
+                    </div>
+                    ${userListHtml}
+                    <div class="content-time card">
+                        <span class="tag">活动时间</span>
+                        <div class="text">${time} ${type}</div>
+                    </div>
                 </div>
-                <div class="content-time">
-                    <span class="tag">活动时间</span>
-                    <div class="text">${time}</div>
-                </div>
-            </div>
-        </div>
-        <div class="poster-footer card">
-            <div class="footer-section">
-                <div class="qr-caption">
-                    <img src="${baseUrl}/assets/images/logo.svg" alt="智源社区">
-                    <span class="text">长按保存图片，微信扫码参加活动</span>
-                </div>
-                <div class="qr-code-container">
-                    <img class="qr-code" src="${qrCodeUrl}" alt="二维码">
-                    <img src="${baseUrl}/assets/images/logo_baai.org.svg" alt="" class="qr-code-logo">
+                <div class="footer-section">
+                    <div class="qr-caption">
+                        <img src="${baseUrl}/assets/images/logo.svg" alt="智源社区">
+                    </div>
+                    <div class="qr-code-container">
+                        <div class="qr-code-item">
+                            <img class="qr-code" src="${qrCodeUrl}" alt="立即报名">
+                            <span class="text">立即报名</span>
+                        </div>
+                        <div class="qr-code-item">
+                            <img class="qr-code" src="${baseUrl}/assets/images/qrcode-baai.jpg" alt="关注社区">
+                            <span class="text">关注社区</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

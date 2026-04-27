@@ -179,9 +179,9 @@
         const qrCodeData = document.getElementById('qrCodeData');
 
         // mock数据填充（用于测试）
-        title.value = "探索Node.js的强大功能";
+        title.value = "谷歌｜AI自动写论文？多智能体写作框架，基于顶会论文逆向生成的原始材料构建数据集和自动评测";
         subtitle.value = "从入门到精通";
-        content.value = "Node.js是一个基于Chrome V8引擎的JavaScript运行环境，广泛应用于服务器端开发。本文将带您深入了解Node.js的核心概念、模块系统以及常用的开发工具和框架，帮助您快速上手并构建高性能的网络应用。";
+        content.value = "将实验材料整合为论文初稿是 AI 科学研究中的关键环节，而现有自动化写作系统与实验流程高度耦合，且生成的文献综述流于表面。智源Talk 356期邀请了 Google Cloud AI Research 宋怡文线上分享《PaperOrchestra: A Multi-Agent Framework for Automated AI Research Paper Writing》。提出了 PaperOrchestra 多智能体框架，能够将写作原始材料灵活转化为达到投稿标准的 LaTeX 论文，同时配套推出了基于顶会论文逆向构建的评测基准 PaperWritingBench，为自动化论文写作提供了系统化的解决方案。欢迎大家一起讨论交流。";
         img_url.value = "https://example.com/image.jpg";
         qrCodeData.value = "https://event.baai.ac.cn/activities/949";
 
@@ -200,7 +200,33 @@
                 subtitle: subtitle.value,
                 content: content.value,
                 img_url: img_url.value,
-                qrCodeData: qrCodeData.value
+                qrCodeData: qrCodeData.value,
+                userList: [
+                    {
+                        "id": 44920,
+                        "follow_count": 0,
+                        "avatar_url": "https://sso-user-avatar.baai.ac.cn/v1/0fe0911990711b7e10867d99f539754c.png",
+                        "name": "曲庆",
+                        "company": "密歇根大学 (University of Michigan)",
+                        "position": "Faculty"
+                    },
+                    {
+                        "id": 97857,
+                        "follow_count": 3,
+                        "avatar_url": "https://simg.baai.ac.cn/uploads/2024/09/c30ff622884a4d400e86b237b0125029.jpg",
+                        "name": "于润芃",
+                        "company": "新加坡国立大学 (National University of Singapore)",
+                        "position": "学生"
+                    },
+                    {
+                        "id": 638,
+                        "follow_count": 39,
+                        "avatar_url": "https://sso-user-avatar.baai.ac.cn/v1/28a80ac37c1fb18dffa874b19dcfe890.png",
+                        "name": "刘知远",
+                        "company": "清华大学",
+                        "position": "教授"
+                    }
+                ]
             };
 
             const posterContainer = document.querySelector('.poster-container');
