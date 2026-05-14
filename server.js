@@ -194,6 +194,7 @@ app.post('/generate-poster', async (req, res) => {
             color: #FFFFFF;
             border-radius: 20px;
             background: linear-gradient(90deg, #0172FF 3%, #003CFF 92%);
+            letter-spacing: 1px;
         }
 
         .poster-body .tag{
